@@ -59,6 +59,54 @@
 
 <script>
 
+  function playSound(event) {
+    // NOTE: Debug Code
+    // print the keycode corresponding to the event
+    // console.log(event.keyCode)
+
+    // find an audio element
+    const audio = document.querySelector(`audio[data-key="${event.keyCode}"]`);
+    // find the key that we're pressing
+    const key = document.querySelector(`.key[data-key="${event.keyCode}"]`);
+
+    // if there is no audio element, then end the function here
+    if (!audio) return;
+
+    // rewind to beginning of sound
+    audio.currentTime = 0;
+    // play the audio file
+    audio.play();
+
+    // add the playing class to our key
+    key.classList.add('playing');
+
+    // NOTE: Debug Code
+    // console.log(key)
+
+    // NOTE: Debug Code
+    // console.log(audio)
+  }
+
+  // removeTransition
+  function removeTransition(event) {
+
+    if (event.propertyName !== 'transform') return; // skip if it's not a
+                                                    // transform
+
+    this.classList.remove('playing');
+
+
+    // NOTE: Debug Code
+    // console.log(event.propertyName);
+  }
+
+  // select all the keys
+  const keys = document.querySelectorAll('.key');
+  // for each key, add an event listener for transition-end
+  // and remove the transition
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  // we're going to listen for the keydown event
+  window.addEventListener('keydown', playSound);
 </script>
 
 
